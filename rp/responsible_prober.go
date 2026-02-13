@@ -133,11 +133,6 @@ func (rp *responsibleIssuer) RegisterImpact(fie *FIE) error {
 
 	matchedEntry.prob = 1.0 / (1.0 + rp.ImpactCoefficientAlpha*l1Loss)
 
-	// fmt.Printf("matchedEntry.prob: %v\n", normalizedPotentialImpactRate)
-	// fmt.Printf("rp.PotentialImpactTableUpdateRate: %v\n", rp.PotentialImpactTableUpdateRate)
-	// fmt.Printf("lastIssuance: %v\n", lastIssuance)
-	fmt.Printf("largestImpact: %v\n", largestImpact)
-
 	return nil
 }
 
