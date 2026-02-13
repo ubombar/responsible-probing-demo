@@ -16,13 +16,13 @@ const (
 	FIEResponseRate = 1.0
 
 	// impact coeff a.
-	ImpactCoefficientAlpha = 1.0
+	ImpactCoefficientAlpha = 0.02
 
 	// impact table update rate per seconds.
 	PotentialImpactTableUpdateRate = 0.05 // every 2 seconds.
 
 	// target probing rate.
-	TargetProbingRate = 1.0
+	TargetProbingRate = 4.0
 )
 
 var responseAddresses = []net.IP{
@@ -92,7 +92,7 @@ func main() {
 		fmt.Printf("%v\n", issuer)
 
 		// Sleep for a second.
-		// time.Sleep(time.Millisecond * 10)
+		time.Sleep(time.Millisecond * 1000)
 
 		// Issue or not issue
 		pd, ok := issuer.Issue(r.Float32())
