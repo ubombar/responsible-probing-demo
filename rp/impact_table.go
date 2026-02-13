@@ -1,7 +1,10 @@
 package rp
 
 import (
+	"bytes"
+	"fmt"
 	"net"
+	"sort"
 	"sync"
 )
 
@@ -58,4 +61,29 @@ func (pi *impactTable) ResetAll() {
 	for e := range pi.impacts {
 		pi.impacts[e] = 0.0
 	}
+}
+
+// String converts the impact table into a user friendly string.
+func (pi *impactTable) String() string {
+	pi.rwMutex.RLock()
+	defer pi.rwMutex.RUnlock()
+
+	// Collect keys
+	keys := make([][16]byte, 0, len(pi.impacts))
+	for k := range pi.impacts {
+		keys = append(keys, k)
+	}
+
+	// Sort lexicographically (IPv6 byte order)
+	sort.Slice(keys, func(i, j int) bool {
+		return bytes.Compare(keys[i][:], keys[j][:]) < 0
+	})
+
+	var b bytes.Buffer
+	for _, k := range keys {
+		ip := net.IP(k[:])
+		fmt.Fprintf(&b, "%-16s %d\n", ip.String(), pi.impacts[k])
+	}
+
+	return b.String()
 }

@@ -41,7 +41,8 @@ type responsibleIssuerEntry struct {
 }
 
 func (rie responsibleIssuerEntry) String() string {
-	return fmt.Sprintf("D%d : [p=%v] %v(%v) --> %v(%v) %v seconds ago",
+	return fmt.Sprintf(
+		"D%-3d : [p=%-6.5f] %s(%d) --> %s(%d) %4d seconds ago",
 		rie.directiveIndex,
 		rie.prob,
 		rie.nearAddr,
@@ -149,9 +150,10 @@ func (rp *responsibleIssuer) String() string {
 
 	header := fmt.Sprintf("Responsible Issuer (current=%d, total=%d)", rp.currentIndex, len(rp.entries))
 	body := ""
+	footer := fmt.Sprintf("\n%v", rp.impactTable.String())
 
 	for _, v := range rp.entries {
 		body = fmt.Sprintf("%v\n%v", body, v.String())
 	}
-	return fmt.Sprintf("%v%v\n", header, body)
+	return fmt.Sprintf("%v%v%v", header, body, footer)
 }
